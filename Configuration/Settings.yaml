@@ -1,0 +1,17 @@
+TYPO3:
+  Neos:
+    typoScript:
+      autoInclude:
+        'Dotpulse.GoogleMaps': TRUE
+    nodeTypes:
+      groups:
+        special:
+          position: 50
+          label: 'Special Content'
+
+Dotpulse:
+  GoogleMaps:
+    includeGoogleAPI: TRUE
+    includeFunction: TRUE
+    includeCSS: FALSE
+    googleAPI: '//maps.google.com/maps/api/js?sensor=false&callback=initMaps'

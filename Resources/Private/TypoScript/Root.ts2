@@ -1,0 +1,50 @@
+prototype(TYPO3.Neos:Page) {
+	head.googleMaps = TYPO3.TypoScript:Tag {
+		tagName = 'link'
+		attributes {
+			rel = 'stylesheet'
+			href = TYPO3.TypoScript:ResourceUri {
+				path = 'resource://Dotpulse.GoogleMaps/Public/Main.css'
+			}
+			@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeCss') && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
+		}
+	}
+
+	body.javascripts {
+		includeFunction = TYPO3.TypoScript:Tag {
+			tagName = 'script'
+			attributes.src = TYPO3.TypoScript:ResourceUri {
+				path = 'resource://Dotpulse.GoogleMaps/Public/Main.js'
+			}
+			@position = 'end'
+			@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeFunction') && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
+		}
+		googleMapsApi = TYPO3.TypoScript:Tag {
+			tagName = 'script'
+			attributes.src = ${Configuration.setting('Dotpulse.GoogleMaps.googleAPI')}
+			@position = 'after includeFunction'
+			@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeGoogleAPI') && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
+		}
+	}
+}
+
+prototype(Dotpulse.GoogleMaps:Map) < prototype(TYPO3.Neos:Content) {
+	@override.hasCoordinates = ${q(node).property('lat') && q(node).property('lng') ? true : false}
+
+	attributes {
+		class = TYPO3.TypoScript:RawArray {
+			default = ${hasCoordinates ? 'google-map' : ''}
+		}
+		style = ${hasCoordinates ? '' : 'background:#d9534f;color:#fff;border:1px solid #d43f3a;padding:5% 12px;margin:20px 0;text-align:center;cursor:pointer;font-size:20px;'}
+		data-lat = ${q(node).property('lat')}
+		data-lng = ${q(node).property('lng')}
+		data-zoom = ${q(node).property('zoom')}
+		data-showinfo = ${q(node).property('showinfo')}
+	}
+
+	noData = ${hasCoordinates ? false : 'Please set the latitude and longitude in the inspector'}
+
+	title = ${q(node).property('title')}
+	text = ${q(node).property('text')}
+
+}

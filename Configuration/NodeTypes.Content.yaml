@@ -1,0 +1,122 @@
+'Dotpulse.GoogleMaps:Map':
+  superTypes:
+    'TYPO3.Neos:Content': TRUE
+  ui:
+    label: 'Google Map'
+    icon: 'icon-map-marker'
+    group: special
+    position: 300
+    inspector:
+      groups:
+        coordinates:
+          label: Coordinates
+          position: 10
+        infowindow:
+          label: 'Info window'
+          position: 20
+
+  properties:
+    lat:
+      type: string
+      ui:
+        label: Latitude
+        reloadPageIfChanged: TRUE
+        inspector:
+          group: coordinates
+          position: 100
+      validation:
+        'TYPO3.Neos/Validation/FloatValidator': []
+        'TYPO3.Neos/Validation/NotEmptyValidator': []
+    lng:
+      type: string
+      ui:
+        label: Longitude
+        reloadPageIfChanged: TRUE
+        inspector:
+          group: coordinates
+          position: 200
+      validation:
+        'TYPO3.Neos/Validation/FloatValidator': []
+        'TYPO3.Neos/Validation/NotEmptyValidator': []
+    zoom:
+      type: string
+      defaultValue: ''
+      ui:
+        label: 'Zoom level'
+        reloadPageIfChanged: TRUE
+        inspector:
+          group: coordinates
+          position: 300
+          editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            placeholder: Default
+            values:
+              '':
+                label: ''
+              '1':
+                label: '4000 km'
+              '2':
+                label: '2000 km (world)'
+              '3':
+                label: '1000 km'
+              '4':
+                label: '400 km (continent)'
+              '5':
+                label: '200 km'
+              '6':
+                label: '100 km (country)'
+              '7':
+                label: '50 km'
+              '8':
+                label: '30 km'
+              '9':
+                label: '15 km (area)'
+              '10':
+                label: '8 km'
+              '11':
+                label: '4 km'
+              '12':
+                label: '2 km (city)'
+              '13':
+                label: '1 km'
+              '14':
+                label: '400 m (district)'
+              '15':
+                label: '200 m'
+              '16':
+                label: '100 m'
+              '17':
+                label: '50 m (street)'
+              '18':
+                label: '20 m'
+              '19':
+                label: '10 m'
+              '20':
+                label: '5 m (house)'
+              '21':
+                label: '2.5 m'
+    title:
+      type: string
+      ui:
+        label: Title
+        inspector:
+          group: infowindow
+          position: 100
+          editor: 'TYPO3.Neos/Inspector/Editors/TextAreaEditor'
+    text:
+      type: string
+      ui:
+        label: Text
+        inspector:
+          group: infowindow
+          position: 200
+          editor: 'TYPO3.Neos/Inspector/Editors/TextAreaEditor'
+    showinfo:
+      type: boolean
+      defaultValue: FALSE
+      ui:
+        label: 'Show information popup by default'
+        reloadPageIfChanged: TRUE
+        inspector:
+          group: infowindow
+          position: 300
