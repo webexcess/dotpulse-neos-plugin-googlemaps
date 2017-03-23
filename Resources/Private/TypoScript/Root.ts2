@@ -6,7 +6,7 @@ prototype(TYPO3.Neos:Page) {
 			href = TYPO3.TypoScript:ResourceUri {
 				path = 'resource://Dotpulse.GoogleMaps/Public/Main.css'
 			}
-			@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeCss') && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
+			@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeCss') == 'TRUE' && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
 		}
 	}
 
@@ -16,7 +16,7 @@ prototype(TYPO3.Neos:Page) {
 			attributes.src = TYPO3.TypoScript:ResourceUri {
 				path = 'resource://Dotpulse.GoogleMaps/Public/Main.js'
 			}
-			@position = 'end'
+			@position = 'end 100'
 			@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeFunction') && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
 		}
 		googleMapsApi = TYPO3.TypoScript:Tag {
@@ -29,20 +29,38 @@ prototype(TYPO3.Neos:Page) {
 }
 
 prototype(Dotpulse.GoogleMaps:Map) < prototype(TYPO3.Neos:Content) {
-	@override.hasCoordinates = ${q(node).property('lat') && q(node).property('lng') ? true : false}
+	map = ${q(node).property('lat') && q(node).property('lng') ? true : false}
+	streetview = ${q(node).property('streetviewlat') && q(node).property('streetviewlng') ? true : false}
+	@override.hasMapAndStreet = ${this.map && this.streetview}
 
 	attributes {
 		class = TYPO3.TypoScript:RawArray {
-			default = ${hasCoordinates ? 'google-map' : ''}
+			row = ${hasMapAndStreet ? 'row' : false}
 		}
-		style = ${hasCoordinates ? '' : 'background:#d9534f;color:#fff;border:1px solid #d43f3a;padding:5% 12px;margin:20px 0;text-align:center;cursor:pointer;font-size:20px;'}
+	}
+
+	mapAttributes = TYPO3.TypoScript:Attributes {
+		class = TYPO3.TypoScript:RawArray {
+			google = 'google-map'
+			col = ${hasMapAndStreet ? 'col-md-6' : false}
+		}
 		data-lat = ${q(node).property('lat')}
 		data-lng = ${q(node).property('lng')}
 		data-zoom = ${q(node).property('zoom')}
 		data-showinfo = ${q(node).property('showinfo')}
 	}
 
-	noData = ${hasCoordinates ? false : 'Please set the latitude and longitude in the inspector'}
+
+	streetViewAttributes = TYPO3.TypoScript:Attributes {
+		class = TYPO3.TypoScript:RawArray {
+			google = 'google-streetview'
+			col = ${hasMapAndStreet ? 'col-md-6' : false}
+		}
+		data-lat = ${q(node).property('streetviewlat')}
+		data-lng = ${q(node).property('streetviewlng')}
+		data-heading = ${q(node).property('heading')}
+		data-pitch = ${q(node).property('pitch')}
+	}
 
 	title = ${q(node).property('title')}
 	text = ${q(node).property('text')}

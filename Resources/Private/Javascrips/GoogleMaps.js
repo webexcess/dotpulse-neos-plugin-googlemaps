@@ -5,6 +5,8 @@
 window.initMaps = function() {
 
 	var elements = document.querySelectorAll('.google-map');
+	var streetviews = document.querySelectorAll('.google-streetview');
+	var streetIndex = streetviews.length;
 	var index    = elements.length;
 	var msg      = index + ' Google Map' + (index !== 1 ? 's' : '') + ' found.';
 
@@ -33,9 +35,13 @@ window.initMaps = function() {
 	var options = {
 		zoom              : 15,
 		mapTypeControl    : true,
-		streetViewControl : true,
+		streetViewControl : false,
 		zoomControl       : true,
 		scrollwheel       : false
+	};
+
+	var streetviewOptions = {
+		scrollwheel: false
 	};
 
 	if (typeof GoogleMapsFunction === 'function') {
@@ -44,6 +50,10 @@ window.initMaps = function() {
 
 	if (typeof GoogleMapsOptions === 'object') {
 		extend(options, GoogleMapsOptions);
+	}
+
+	if (typeof GoogleStreetviewOptions === 'object') {
+		extend(streetviewOptions, GoogleStreetviewOptions);
 	}
 
 	for (var i = 0; i < index; i++) {
@@ -100,6 +110,21 @@ window.initMaps = function() {
 				})(storage);
 			}
 			/* jshint loopfunc:false */
+		}
+	}
+
+	for (var s = 0; s < streetIndex; s++) {
+		var streetview = streetviews[s];
+		if (streetview.className.indexOf('init') === -1) {
+			streetview.className += ' init';
+			var streetStorage = streetviewOptions;
+			streetStorage.position = new google.maps.LatLng(getFloat(streetview, 'lat'), getFloat(streetview, 'lng'));
+			streetStorage.pov = {
+				heading: getNumber(streetview, 'heading') || 0,
+				pitch: getNumber(streetview, 'pitch') || 0
+			};
+
+			new google.maps.StreetViewPanorama(streetview, streetStorage);
 		}
 	}
 

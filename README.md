@@ -6,21 +6,18 @@
 
 # Dotpulse.GoogleMaps Package for Neos CMS #
 
-Composer Integration:
+## Composer
+
+### Integration Repository
 ```
-#!json
-{
-    "require": {
-        "dotpulse/googlemaps": "~2.0.0"
-    },
-    "repositories":[
-        {
-            "type": "vcs",
-            "url": "ssh://hg@bitbucket.org/dotpulse/neos-plugin-googlemaps"
-        }
-    ]
-}
-```* * *
+composer config repositories.googlemaps vcs ssh://hg@bitbucket.org/dotpulse/neos-plugin-googlemaps
+```
+
+### Installation
+```
+composer require dotpulse/googlemaps
+```
+* * *
 > ##### License Terms
 > DE: Dieses Package wird durch webexcess unter der [GNU GPLv3 Lizenz](https://choosealicense.com/licenses/gpl-3.0/) verwaltet. Dieses Package und darin enthaltene oder hinzugefügte Quellcodes können exklusiv durch webexcess in Teilen oder als Ganzes zusätzlich und unter eigenem Namen unter der MIT-Lizenz veröffentlicht werden.
 

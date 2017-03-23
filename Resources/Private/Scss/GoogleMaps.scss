@@ -16,17 +16,15 @@ $googleMaps-lg-min: 1200px !default;
 	$googleMaps-color: #222 !default;
 }
 
-
-.google-map {
-	width: $googleMaps-width;
+.dotpulse-googlemaps-map {
 	margin: $googleMaps-margin;
-	height: $googleMaps-height;
-	visibility: hidden;
-	color: $googleMaps-color;
+}
 
-	img {
-		max-width: none;
-	}
+.google-streetview,
+.google-map {
+	visibility: hidden;
+	width: $googleMaps-width;
+	height: $googleMaps-height;
 
 	&.init {
 		visibility: visible;
@@ -42,5 +40,13 @@ $googleMaps-lg-min: 1200px !default;
 
 	@media (min-width: $googleMaps-lg-min) {
 		height: $googleMaps-height-lg;
+	}
+}
+
+.google-map {
+	color: $googleMaps-color;
+
+	img {
+		max-width: none;
 	}
 }

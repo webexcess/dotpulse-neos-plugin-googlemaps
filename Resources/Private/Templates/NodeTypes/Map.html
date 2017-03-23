@@ -1,4 +1,11 @@
-<div{attributes -> f:format.raw()}><f:if condition="{noData}">{noData}</f:if><f:if condition="{title}">
-	<strong><f:format.nl2br>{title -> f:format.raw()}</f:format.nl2br></strong><br></f:if><f:if condition="{text}">
-	<f:format.nl2br>{text -> f:format.raw()}</f:format.nl2br>
-</f:if></div>
+<div{attributes -> f:format.raw()}>
+	<f:if condition="{map}">
+		<div{mapAttributes -> f:format.raw()}><f:if condition="{title}">
+			<strong><f:format.nl2br>{title -> f:format.raw()}</f:format.nl2br></strong><br></f:if><f:if condition="{text}">
+			<f:format.nl2br>{text -> f:format.raw()}</f:format.nl2br>
+		</f:if></div>
+	</f:if>
+	<f:if condition="{streetview}">
+		<div{streetViewAttributes -> f:format.raw()}></div>
+	</f:if>
+</div>

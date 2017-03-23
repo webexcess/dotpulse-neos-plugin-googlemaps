@@ -9,41 +9,42 @@
     inspector:
       groups:
         coordinates:
-          label: Coordinates
+          label: Map
           position: 10
         infowindow:
           label: 'Info window'
           position: 20
+        streetview:
+          label: Streetview
+          position: 30
 
   properties:
     lat:
       type: string
       ui:
         label: Latitude
-        reloadPageIfChanged: TRUE
+        reloadIfChanged: TRUE
         inspector:
           group: coordinates
           position: 100
       validation:
         'TYPO3.Neos/Validation/FloatValidator': []
-        'TYPO3.Neos/Validation/NotEmptyValidator': []
     lng:
       type: string
       ui:
         label: Longitude
-        reloadPageIfChanged: TRUE
+        reloadIfChanged: TRUE
         inspector:
           group: coordinates
           position: 200
       validation:
         'TYPO3.Neos/Validation/FloatValidator': []
-        'TYPO3.Neos/Validation/NotEmptyValidator': []
     zoom:
       type: string
       defaultValue: ''
       ui:
         label: 'Zoom level'
-        reloadPageIfChanged: TRUE
+        reloadIfChanged: TRUE
         inspector:
           group: coordinates
           position: 300
@@ -116,7 +117,55 @@
       defaultValue: FALSE
       ui:
         label: 'Show information popup by default'
-        reloadPageIfChanged: TRUE
+        reloadIfChanged: TRUE
         inspector:
           group: infowindow
           position: 300
+    streetviewlat:
+      type: string
+      ui:
+        label: Latitude
+        reloadIfChanged: TRUE
+        inspector:
+          group: streetview
+          position: 100
+      validation:
+        'TYPO3.Neos/Validation/FloatValidator': []
+    streetviewlng:
+      type: string
+      ui:
+        label: Longitude
+        reloadIfChanged: TRUE
+        inspector:
+          group: streetview
+          position: 200
+      validation:
+        'TYPO3.Neos/Validation/FloatValidator': []
+    heading:
+      type: integer
+      defaultValue: 0
+      ui:
+        label: Heading
+        reloadIfChanged: TRUE
+        inspector:
+          group: streetview
+          position: 300
+      validation:
+        'TYPO3.Neos/Validation/NumberRangeValidator':
+          minimum: 0
+          maximum: 359
+        'TYPO3.Neos/Validation/NotEmptyValidator': []
+    pitch:
+      type: integer
+      defaultValue: 0
+      ui:
+        label: Pitch
+        reloadIfChanged: TRUE
+        inspector:
+          group: streetview
+          position: 400
+      validation:
+        'TYPO3.Neos/Validation/NumberRangeValidator':
+          minimum: -90
+          maximum: 90
+        'TYPO3.Neos/Validation/NotEmptyValidator': []
