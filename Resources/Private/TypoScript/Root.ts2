@@ -11,7 +11,7 @@ prototype(TYPO3.Neos:Page) {
 	}
 
 	body.javascripts {
-		includeFunction = TYPO3.TypoScript:Tag {
+		googleMapsFunction = TYPO3.TypoScript:Tag {
 			tagName = 'script'
 			attributes.src = TYPO3.TypoScript:ResourceUri {
 				path = 'resource://Dotpulse.GoogleMaps/Public/Main.js'
@@ -22,7 +22,7 @@ prototype(TYPO3.Neos:Page) {
 		googleMapsApi = TYPO3.TypoScript:Tag {
 			tagName = 'script'
 			attributes.src = ${Configuration.setting('Dotpulse.GoogleMaps.googleAPI')}
-			@position = 'after includeFunction'
+			@position = 'after googleMapsFunction'
 			@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeGoogleAPI') && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
 		}
 	}

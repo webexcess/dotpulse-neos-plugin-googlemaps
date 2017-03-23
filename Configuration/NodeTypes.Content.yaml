@@ -47,7 +47,7 @@
         inspector:
           group: coordinates
           position: 300
-          editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+          editor: TYPO3.Neos/Inspector/Editors/SelectBoxEditor
           editorOptions:
             placeholder: Default
             values:
