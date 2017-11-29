@@ -6,8 +6,8 @@ prototype(TYPO3.Neos:Page) {
 			href = TYPO3.TypoScript:ResourceUri {
 				path = 'resource://Dotpulse.GoogleMaps/Public/Main.css'
 			}
-			@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeCss') == 'TRUE' && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
 		}
+		@if.isActiveAndHasMapOrIsBackend = ${Configuration.setting('Dotpulse.GoogleMaps.includeCss') == 'TRUE' && (q(node).find('[instanceof Dotpulse.GoogleMaps:Map]').is() || node.context.inBackend)}
 	}
 
 	body.javascripts {

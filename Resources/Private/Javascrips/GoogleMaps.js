@@ -3,7 +3,7 @@
 // To set the marker pin, use the global variable GoogleMapsPin
 // To include functions, use GoogleMapsFunction
 window.initDotpulseGoogleMaps = function() {
-	// We store eveything in one Object, so it's easier to inlclude function
+	// We store eveything in one Object, so it's easier to include function
 	var object = {
 		Map: {
 			elements: document.querySelectorAll('.google-map'),
