@@ -18,6 +18,22 @@ $googleMaps-lg-min: 1200px !default;
 
 .dotpulse-googlemaps-map {
 	margin: $googleMaps-margin;
+
+	.neos-backend & {
+		min-height: $googleMaps-height;
+
+		@media (min-width: $googleMaps-sm-min) {
+			min-height: $googleMaps-height-sm;
+		}
+
+		@media (min-width: $googleMaps-md-min) {
+			min-height: $googleMaps-height-md;
+		}
+
+		@media (min-width: $googleMaps-lg-min) {
+			min-height: $googleMaps-height-lg;
+		}
+	}
 }
 
 .google-streetview,

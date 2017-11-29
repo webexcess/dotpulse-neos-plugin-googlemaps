@@ -1,47 +1,50 @@
 // Google Maps Function
 // To set the options, use the global variable GoogleMapsOptions
-// To set the marker pin, use the global variable  GoogleMapsPin
+// To set the marker pin, use the global variable GoogleMapsPin
 // To include functions, use GoogleMapsFunction
-window.initMaps = function() {
-
-	var elements = document.querySelectorAll('.google-map');
-	var streetviews = document.querySelectorAll('.google-streetview');
-	var streetIndex = streetviews.length;
-	var index    = elements.length;
-	var msg      = index + ' Google Map' + (index !== 1 ? 's' : '') + ' found.';
-
-	var extend = function(a, b) {
-		for (var key in b) {
-			if (b.hasOwnProperty(key)) {
-				a[key] = b[key];
+window.initDotpulseGoogleMaps = function() {
+	// We store eveything in one Object, so it's easier to inlclude function
+	var object = {
+		Map: {
+			elements: document.querySelectorAll('.google-map'),
+			options: {
+				zoom              : 15,
+				mapTypeControl    : true,
+				streetViewControl : false,
+				zoomControl       : true,
+				scrollwheel       : false
+			}
+		},
+		Streetview: {
+			elements: document.querySelectorAll('.google-streetview'),
+			options: {
+				scrollwheel: false
 			}
 		}
-		return a;
 	};
+	var feedback = [];
+	for (var key in object) {
+		var num = object[key].elements.length;
+		object[key].index = num;
+		feedback[feedback.length] = num + ' ' + key + (num == 1 ? '' : 's') + ' found';
+	}
 
+	var extend = function(object, inject) {
+		for (var key in inject) {
+			if (inject.hasOwnProperty(key)) {
+				object[key] = inject[key];
+			}
+		}
+		return object;
+	};
 	var getFloat = function(element, value) {
 		return parseFloat(element.getAttribute('data-' + value));
 	};
-
 	var getNumber = function(element, value) {
 		return parseInt(element.getAttribute('data-' + value));
 	};
-
 	var hasData = function(element, value) {
 		return element.getAttribute('data-' + value) !== null;
-	};
-
-	// Default Optionen
-	var options = {
-		zoom              : 15,
-		mapTypeControl    : true,
-		streetViewControl : false,
-		zoomControl       : true,
-		scrollwheel       : false
-	};
-
-	var streetviewOptions = {
-		scrollwheel: false
 	};
 
 	if (typeof GoogleMapsFunction === 'function') {
@@ -49,29 +52,35 @@ window.initMaps = function() {
 	}
 
 	if (typeof GoogleMapsOptions === 'object') {
-		extend(options, GoogleMapsOptions);
+		extend(object.Map.options, GoogleMapsOptions);
 	}
 
 	if (typeof GoogleStreetviewOptions === 'object') {
-		extend(streetviewOptions, GoogleStreetviewOptions);
+		extend(object.Streetview.options, GoogleStreetviewOptions);
 	}
 
-	for (var i = 0; i < index; i++) {
-		var element = elements[i];
-		if (element.className.indexOf('init') === -1) {
-			element.className += ' init';
+	for (var m = 0; m < object.Map.index; m++) {
+		var map = object.Map.elements[m];
+		if (map.className.indexOf('init') === -1) {
+			map.className += ' init';
+
 			var storage = {
-				lat: getFloat(element,'lat'),
-				lng: getFloat(element,'lng'),
-				content : element.innerHTML
+				lat: getFloat(map,'lat'),
+				lng: getFloat(map,'lng'),
+				content : map.innerHTML
 			};
-			var zoom = getNumber(element,'zoom');
+			var mapOptions = object.Map.options;
+			var zoom = getNumber(map,'zoom');
+
+			storage.LatLng = new google.maps.LatLng(storage.lat, storage.lng);
+			mapOptions.center = storage.LatLng;
+
 			if (typeof zoom === 'number') {
-				options.zoom = zoom;
+				mapOptions.zoom = zoom;
 			}
-			storage.LatLng =  new google.maps.LatLng(storage.lat,storage.lng);
-			options.center = storage.LatLng;
-			storage.map = new google.maps.Map(element,options);
+
+			storage.map = new google.maps.Map(map, mapOptions);
+
 			if (storage.content) {
 				storage.infowindow = new google.maps.InfoWindow({
 					content: storage.content
@@ -81,7 +90,7 @@ window.initMaps = function() {
 			// Marker definieren
 			var marker = {
 				position: storage.LatLng,
-				title : element.getAttribute('data-marker-title'),
+				title : map.getAttribute('data-marker-title'),
 				map: storage.map,
 				draggable: false
 			};
@@ -93,42 +102,39 @@ window.initMaps = function() {
 			}
 			storage.marker = new google.maps.Marker(marker);
 
-			if (hasData(element,'showinfo') && storage.content) {
+			if (hasData(map,'showinfo') && storage.content) {
 				storage.infowindow.open(storage.map,storage.marker);
 			}
 
-			/* jshint loopfunc:true */
+			// jshint loopfunc:true
 			if (typeof window.addEventListener === 'function') {
 				(function(_storage) {
 					google.maps.event.addListener(_storage.marker, 'click', function() {
 						if (_storage.content) {
-							_storage.infowindow.open(_storage.map,_storage.marker);
+							_storage.infowindow.open(_storage.map, _storage.marker);
 						} else {
 							window.open('https://www.google.com/maps/dir//' + _storage.lat + ',' + _storage.lng);
 						}
 					});
 				})(storage);
 			}
-			/* jshint loopfunc:false */
+			// jshint loopfunc:false
 		}
 	}
 
-	for (var s = 0; s < streetIndex; s++) {
-		var streetview = streetviews[s];
+	for (var s = 0; s < object.Streetview.index; s++) {
+		var streetview = object.Streetview.elements[s];
 		if (streetview.className.indexOf('init') === -1) {
 			streetview.className += ' init';
-			var streetStorage = streetviewOptions;
+			var streetStorage = object.Streetview.options;
 			streetStorage.position = new google.maps.LatLng(getFloat(streetview, 'lat'), getFloat(streetview, 'lng'));
 			streetStorage.pov = {
 				heading: getNumber(streetview, 'heading') || 0,
 				pitch: getNumber(streetview, 'pitch') || 0
 			};
-
 			new google.maps.StreetViewPanorama(streetview, streetStorage);
 		}
 	}
 
-	return msg;
+	return feedback;
 };
-
-document.addEventListener('Neos.PageLoaded',initMaps, false);

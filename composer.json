@@ -2,7 +2,7 @@
     "name": "dotpulse/googlemaps",
     "type": "typo3-flow-plugin",
     "description": "Google Maps as Content Element",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "require": {
         "typo3/neos": "2.*"
     },
@@ -14,9 +14,9 @@
     },
     "authors": [
         {
-            "name": "dotpulse AG ppa. webexcess GmbH",
-            "email": "neos+dotpulse-opensource@webexcess.ch",
-            "homepage": "http://webexcess.ch",
+            "name": "Jon Uhlmann",
+            "email": "jon.uhlmann@dotpulse.ch",
+            "homepage": "http://dotpulse.ch",
             "role": "Developer"
         }
     ]

@@ -32,17 +32,18 @@ prototype(Dotpulse.GoogleMaps:Map) < prototype(TYPO3.Neos:Content) {
 	map = ${q(node).property('lat') && q(node).property('lng') ? true : false}
 	streetview = ${q(node).property('streetviewlat') && q(node).property('streetviewlng') ? true : false}
 	@override.hasMapAndStreet = ${this.map && this.streetview}
+	@override.configuration = ${Configuration.setting('Dotpulse.GoogleMaps.MapAndStreetview')}
 
 	attributes {
 		class = TYPO3.TypoScript:RawArray {
-			row = ${hasMapAndStreet ? 'row' : false}
+			row = ${hasMapAndStreet ? configuration.wrapper : false}
 		}
 	}
 
 	mapAttributes = TYPO3.TypoScript:Attributes {
 		class = TYPO3.TypoScript:RawArray {
 			google = 'google-map'
-			col = ${hasMapAndStreet ? 'col-md-6' : false}
+			col = ${hasMapAndStreet ? configuration.map : false}
 		}
 		data-lat = ${q(node).property('lat')}
 		data-lng = ${q(node).property('lng')}
@@ -54,7 +55,7 @@ prototype(Dotpulse.GoogleMaps:Map) < prototype(TYPO3.Neos:Content) {
 	streetViewAttributes = TYPO3.TypoScript:Attributes {
 		class = TYPO3.TypoScript:RawArray {
 			google = 'google-streetview'
-			col = ${hasMapAndStreet ? 'col-md-6' : false}
+			col = ${hasMapAndStreet ? configuration.streetview : false}
 		}
 		data-lat = ${q(node).property('streetviewlat')}
 		data-lng = ${q(node).property('streetviewlng')}
